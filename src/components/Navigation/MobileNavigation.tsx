@@ -17,24 +17,22 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "@mui/icons-material";
+import { pages } from ".";
 
 interface MobileNavigationProps {
   isOpen: boolean;
   onChange: (state: boolean) => void;
-  sx: any
 }
 
-const MobileNavigation: FC<MobileNavigationProps> = ({
-  isOpen,
-  onChange,
-  sx,
-}) => {
+const MobileNavigation: FC<MobileNavigationProps> = ({ isOpen, onChange }) => {
   const theme = useTheme();
 
-  const handleDrawerChange = useCallback((state: boolean) => {
-    onChange && onChange(state);
-  }, [onChange])
-
+  const handleDrawerChange = useCallback(
+    (state: boolean) => {
+      onChange && onChange(state);
+    },
+    [onChange]
+  );
 
   return (
     <Drawer
@@ -42,7 +40,6 @@ const MobileNavigation: FC<MobileNavigationProps> = ({
       onClose={() => handleDrawerChange(false)}
       anchor="left"
       sx={{
-        ...sx,
         width: drawerWidth,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
@@ -59,15 +56,7 @@ const MobileNavigation: FC<MobileNavigationProps> = ({
       </DrawerHeader>
       <Divider />
       <List>
-        {[
-          "Main",
-          "History",
-          "Categorize",
-          "Transactions",
-          "Incomes",
-          "Reports and analyze",
-          "Settings",
-        ].map((text, index) => (
+        {pages.map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -80,16 +69,14 @@ const MobileNavigation: FC<MobileNavigationProps> = ({
       </List>
       <Divider />
       <List>
-        {["Log In", "Log Out", "Report problem"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <MoveToInbox /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Report problem"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   );
