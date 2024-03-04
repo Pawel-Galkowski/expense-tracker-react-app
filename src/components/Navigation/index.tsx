@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Avatar,
   Box,
   Button,
   Container,
@@ -10,13 +9,13 @@ import {
   Toolbar,
   Tooltip,
   Typography,
-  useTheme,
+  Divider,
 } from "@mui/material";
 import React, { useCallback, useState } from "react";
 import MobileNavigation from "./MobileNavigation";
 import { useTranslation } from "react-i18next";
-import { LanguageType, languages } from "../../utils";
 import { Adb as AdbIcon, Menu as MenuIcon } from "@mui/icons-material";
+import { LanguagesDropdown } from "./LanguagesDropdown";
 
 export const pages = [
   "Main",
@@ -28,19 +27,17 @@ export const pages = [
   "Settings",
 ];
 
+const colorMenuItems = '#fff'
+
 export const Navigation: React.FC = () => {
-  const theme = useTheme();
-  const { t, i18n } = useTranslation();
+  // const theme = useTheme();
+  const { t } = useTranslation();
   const [mobileNavOpen, isMobileNavOpen] = useState<boolean>(false);
   const [isLogged, setIsLogged] = useState<boolean>(false);
 
   const onMobileNavChange = useCallback((state: boolean) => {
     isMobileNavOpen(state);
   }, []);
-
-  const changeLanguage = (lng: LanguageType) => {
-    i18n.changeLanguage(lng);
-  };
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -49,20 +46,6 @@ export const Navigation: React.FC = () => {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
-  const languageState = () => (
-    <>
-      <button type="button" onClick={() => changeLanguage(languages.de)}>
-        de
-      </button>
-      <button type="button" onClick={() => changeLanguage(languages.en)}>
-        en
-      </button>
-      <button type="button" onClick={() => changeLanguage(languages.pl)}>
-        pl
-      </button>
-    </>
-  );
 
   return (
     <nav>
@@ -156,14 +139,16 @@ export const Navigation: React.FC = () => {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            <LanguagesDropdown />
+            <Divider orientation="vertical" flexItem sx={{ margin: '4px 0 4px 5px', borderColor: colorMenuItems }} />
+            <Box sx={{ flexGrow: 0, marginLeft: '12px' }}>
               <Tooltip title="Auth">
                 {isLogged ? (
-                  <Button onClick={() => setIsLogged(false)} sx={{ p: 0 }}>
+                  <Button onClick={() => setIsLogged(false)} sx={{ p: 0, color: colorMenuItems }}>
                     {t("Log Out")}
                   </Button>
                 ) : (
-                  <Button onClick={() => setIsLogged(true)} sx={{ p: 0 }}>
+                  <Button onClick={() => setIsLogged(true)} sx={{ p: 0, color: colorMenuItems }}>
                     {t("Log In")}
                   </Button>
                 )}
